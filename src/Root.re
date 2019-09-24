@@ -28,8 +28,5 @@ let make = () => {
       [|route|],
     );
 
-    <div className=Styles.root>
-    <App.Header />
-   activeRoute
-  </div>;
+  <div className=Styles.root> <App.Header /> activeRoute </div>;
 };

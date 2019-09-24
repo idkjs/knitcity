@@ -59,7 +59,7 @@ let make = () => {
 
   <>
     <div className=Styles.innerRoot>
-      <MaterialUi.Grid spacing=V3 direction=`Column alignItems=`Center justify=`Center>
+      <MaterialUi.Grid spacing=V3 direction=`Column alignItems=`Center justify=`Center container=true>
         <MaterialUi.Grid item=true>
           <MaterialUi.TextField
             variant=`Outlined

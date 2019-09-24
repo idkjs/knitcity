@@ -8,4 +8,4 @@ module Root = {
     </React.Fragment>;
   };
 };
-ReactDOMRe.renderToElementWithId(<BGW />, "root");
+ReactDOMRe.renderToElementWithId(<BackgroundWrapper />, "root");

@@ -142,8 +142,8 @@ if (jsonStringOpt !== null) {
 }
 
 var initialState = /* record */[
-  /* rows */rows,
-  /* titleVal */""
+  /* titleVal */"",
+  /* rows */rows
 ];
 
 function reducer(state, action) {
@@ -151,25 +151,25 @@ function reducer(state, action) {
     switch (action) {
       case 0 : 
           var newRows = /* array */[/* record */[
-              /* title */state[/* titleVal */1],
+              /* title */state[/* titleVal */0],
               /* rows */0
             ]];
           return /* record */[
+                  /* titleVal */"",
                   /* rows */$$Array.concat(/* :: */[
-                        state[/* rows */0],
+                        state[/* rows */1],
                         /* :: */[
                           newRows,
                           /* [] */0
                         ]
-                      ]),
-                  /* titleVal */""
+                      ])
                 ];
       case 1 : 
           return state;
       case 2 : 
           return /* record */[
-                  /* rows : array */[],
-                  /* titleVal */state[/* titleVal */1]
+                  /* titleVal */state[/* titleVal */0],
+                  /* rows : array */[]
                 ];
       
     }
@@ -177,21 +177,21 @@ function reducer(state, action) {
     switch (action.tag | 0) {
       case 0 : 
           var index = action[0];
-          var toUpdate = Caml_array.caml_array_get(state[/* rows */0], index);
-          Caml_array.caml_array_set(state[/* rows */0], index, /* record */[
+          var toUpdate = Caml_array.caml_array_get(state[/* rows */1], index);
+          Caml_array.caml_array_set(state[/* rows */1], index, /* record */[
                 /* title */toUpdate[/* title */0],
                 /* rows */toUpdate[/* rows */1] + 1 | 0
               ]);
           return state;
       case 1 : 
           return /* record */[
-                  /* rows */state[/* rows */0],
-                  /* titleVal */action[0]
+                  /* titleVal */action[0],
+                  /* rows */state[/* rows */1]
                 ];
       case 2 : 
           var index$1 = action[0];
-          var toUpdate$1 = Caml_array.caml_array_get(state[/* rows */0], index$1);
-          Caml_array.caml_array_set(state[/* rows */0], index$1, /* record */[
+          var toUpdate$1 = Caml_array.caml_array_get(state[/* rows */1], index$1);
+          Caml_array.caml_array_set(state[/* rows */1], index$1, /* record */[
                 /* title */toUpdate$1[/* title */0],
                 /* rows */0
               ]);
@@ -206,14 +206,14 @@ function RowCalcRoot(Props) {
   var dispatch = match[1];
   var state = match[0];
   React.useEffect((function () {
-          console.log(state[/* rows */0]);
-          localStorage.setItem("rowCalcs", Json.stringify(Json_encode.array(encodeRow, state[/* rows */0])));
+          console.log(state[/* rows */1]);
+          localStorage.setItem("rowCalcs", Json.stringify(Json_encode.array(encodeRow, state[/* rows */1])));
           return undefined;
         }), /* array */[state]);
   return React.createElement(React.Fragment, undefined, React.createElement("div", {
                   className: App$KnitZilla.Styles[/* innerRoot */0] + (" " + counterContainer)
-                }, React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, undefined, Caml_option.some($$Array.mapi((function (index, a) {
-                                    return React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, undefined, Caml_option.some(React.createElement(RowCalc$KnitZilla.make, {
+                }, React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, /* Center */980392437, Caml_option.some($$Array.mapi((function (index, a) {
+                                    return React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, /* Center */980392437, Caml_option.some(React.createElement(RowCalc$KnitZilla.make, {
                                                             rows: a[/* rows */1],
                                                             title: a[/* title */0],
                                                             newValues: (function (action) {
@@ -224,8 +224,8 @@ function RowCalcRoot(Props) {
                                                                 }
                                                               }),
                                                             index: index
-                                                          })), undefined, undefined, undefined, undefined, true, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, String(index), undefined, undefined, undefined, /* () */0));
-                                  }), state[/* rows */0])), undefined, undefined, undefined, undefined, undefined, /* Center */980392437, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0))), React.createElement("div", {
+                                                          })), undefined, undefined, true, /* Column */-81804554, true, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, String(index), undefined, undefined, undefined, /* () */0));
+                                  }), state[/* rows */1])), undefined, undefined, true, /* Column */-81804554, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0))), React.createElement("div", {
                   className: formControl
                 }, React.createElement(Core.Button, MaterialUi_Button.makeProps("+ counter", undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, (function (_e) {
                             return Curry._1(dispatch, /* AddNewRow */0);
@@ -235,7 +235,7 @@ function RowCalcRoot(Props) {
                             return Curry._1(dispatch, /* ChangeText */Block.__(1, [e.target.value]));
                           }), undefined, undefined, undefined, undefined, undefined, undefined, undefined, "text", /* `String */[
                           -976970511,
-                          state[/* titleVal */1]
+                          state[/* titleVal */0]
                         ], undefined, undefined, undefined, undefined, undefined, undefined, /* () */0))), React.createElement("div", {
                   className: floatingRightSideBack,
                   onClick: (function (_e) {

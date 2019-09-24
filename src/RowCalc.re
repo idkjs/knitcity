@@ -19,8 +19,9 @@ let make = (~rows, ~title, ~newValues: updateActions => unit, ~index) => {
     <MaterialUi_Typography align=`Center variant=`Body1>
       title->rs
     </MaterialUi_Typography>
-    <MaterialUi.Grid direction=`Column alignItems=`Center>
-      <MaterialUi.Grid item=true>
+    <MaterialUi.Grid direction=`Column alignItems=`Center container=true>
+      <MaterialUi.Grid
+        direction=`Column item=true alignItems=`Center container=true>
         <div
           onClick={_e => newValues(Count(index))}
           className=Styles.numberWrapper>
@@ -29,15 +30,24 @@ let make = (~rows, ~title, ~newValues: updateActions => unit, ~index) => {
           </MaterialUi_Typography>
         </div>
       </MaterialUi.Grid>
-      <MaterialUi.Grid item=true>
-        <MaterialUi.Grid>
-          <MaterialUi.Grid item=true>
-            <MaterialUi.Button variant=`Text onClick={_e => newValues(Count(index))}>
+      <MaterialUi.Grid
+        direction=`Column item=true alignItems=`Center container=true>
+        <MaterialUi.Grid direction=`Column alignItems=`Center container=true>
+          <MaterialUi.Grid
+            direction=`Column item=true alignItems=`Center container=true>
+            <MaterialUi.Button
+              variant=`Text
+              onClick={_e => {
+                Js.log2("newValues(Count(index))", index);
+                newValues(Count(index));
+              }}>
               {React.string("+1")}
             </MaterialUi.Button>
           </MaterialUi.Grid>
-          <MaterialUi.Grid item=true>
-            <MaterialUi.Button variant=`Text onClick={_e => newValues(Reset(index))}>
+          <MaterialUi.Grid
+            direction=`Column item=true alignItems=`Center container=true>
+            <MaterialUi.Button
+              variant=`Text onClick={_e => newValues(Reset(index))}>
               {React.string("Reset")}
             </MaterialUi.Button>
           </MaterialUi.Grid>

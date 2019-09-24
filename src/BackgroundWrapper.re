@@ -11,54 +11,35 @@ external addEventListener:
 
 [@bs.val]
 external removeEventListener:
-  ([@bs.string] [ | `touchend], {. "url": string} => unit) => unit =
+  ([@bs.string] [ | `touchstart | `touchend], {. "url": string} => unit) =>
+  unit =
   "window.removeEventListener";
 
-module Styles = {
-  open Css;
-  let root =
-    style([
-      height(`percent(100.0)),
-      width(`percent(100.0)),
-      position(`absolute),
-      backgroundImage(
-        linearGradient(
-          grad(0.0),
-          [(px(0), `hex("A5A6C5")), (px(100), `hex("F8DFC9"))],
-        ),
-      ),
-    ]);
-};
-
-type routes =
-  | Home
-  | Calc;
-
 type state = {
-  activeRoute: routes,
+  activeRoute: Routing.routes,
   startClientX: int,
 };
 
 type actions =
-  | Route(routes)
+  | Route(Routing.routes)
   | TouchStart(int);
 
 type direction =
   | Left
   | Right;
 
-let reducer = (state, action) => {
-  switch (action) {
-  | Route(toChange) => {...state, activeRoute: toChange}
-  | TouchStart(startX) => {...state, startClientX: startX}
-  };
-};
-let initialState = {activeRoute: Home, startClientX: 0};
 let x = ref(0);
 [@react.component]
-let make = () => {
-  let (state, dispatch) = React.useReducer(reducer, initialState);
-
+let make = (~activeRoute=Routing.useAppUrl()) => {
+  let (_state, dispatch) =
+    React.useReducer(
+      (state, action) =>
+        switch (action) {
+        | TouchStart(startX) => {...state, startClientX: startX}
+        | Route(route) => {...state, activeRoute: route}
+        },
+      {activeRoute: Home, startClientX: 0},
+    );
   let onTouchStart = e => {
     let touch =
       ReactEvent.Touch.touches(e)
@@ -66,6 +47,7 @@ let make = () => {
       ->(Array.get(0));
     let touchVal = touch##clientX;
     x := touchVal;
+    dispatch(TouchStart(x^));
   };
   let onTouchEnd = e => {
     let touch =
@@ -86,29 +68,24 @@ let make = () => {
     x := 0;
   };
   React.useEffect1(
-    () => {
-      let touchListen =
-        ReasonReact.Router.watchUrl(url =>
-          switch (url.path) {
-          | ["calc"] => dispatch(Route(Calc))
-          | _ => dispatch(Route(Home))
-          }
+    () =>
+      {
+        // let watcherId = Routing.useAppUrl();
+        dispatch(Route(activeRoute));
+        addEventListener(`touchstart, e => onTouchStart(e));
+
+        addEventListener(`touchend, e => onTouchEnd(e));
+        Some(
+          () => {
+            let _ = removeEventListener(`touchstart);
+
+            let _ = removeEventListener(`touchend);
+            ();
+          },
         );
-
-      addEventListener(`touchstart, e => onTouchStart(e));
-      addEventListener(`touchend, e => onTouchEnd(e));
-      // None;
-      Some(() => ReasonReactRouter.unwatchUrl(touchListen));
-    },
-    [|state|],
+      },
+      // let touchListen = Routing.useAppUrl();
+    [|activeRoute|],
   );
-
-  <div className=Styles.root>
-    <App.Header />
-    {switch (state.activeRoute) {
-     | Home => <App />
-     | Calc => <RowCalcRoot />
-     }}
-  </div>;
+  <Root />;
 };
-let default = make;

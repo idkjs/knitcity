@@ -46,8 +46,8 @@ module Styles = {
     ]);
 };
 type state = {
-  rows: RowCalcParser.rows,
   titleVal: string,
+  rows: RowCalcParser.rows,
 };
 type actions =
   | AddNewRow
@@ -72,7 +72,7 @@ let initialState = {
       };
     {rows, titleVal: ""};
   };
- let reducer = (state, action) => {
+  let reducer =(state, action) => {
     switch (action) {
     | AddNewRow =>
       let newRows: RowCalcParser.rows = [|{title: state.titleVal, rows: 0}|];
@@ -86,7 +86,7 @@ let initialState = {
       let newState = state;
       let toUpdate = newState.rows[index];
       newState.rows[index] = {title: toUpdate.title, rows: toUpdate.rows + 1};
-      newState;
+      {newState};
     | UpdateRowReset(index) =>
       let newState = state;
       let toUpdate = newState.rows[index];
@@ -96,6 +96,7 @@ let initialState = {
       {...state, titleVal: toChange}
     };
   };
+
 [@react.component]
 let make = () => {
   let (state, dispatch) = React.useReducer(reducer, initialState);
@@ -116,10 +117,10 @@ let make = () => {
 
     <>
       <div className={App.Styles.innerRoot ++ " " ++ Styles.counterContainer}>
-        <MaterialUi.Grid justify=`Center>
+        <MaterialUi.Grid direction=`Column alignItems=`Center container=true>
           {state.rows
            |> Array.mapi((index, a: RowCalcParser.rowCalc) =>
-                <MaterialUi.Grid item=true key={string_of_int(index)}>
+                <MaterialUi.Grid direction=`Column alignItems=`Center container=true  item=true key={string_of_int(index)}>
                   <RowCalc
                     rows={a.rows}
                     title={a.title}
