@@ -24,22 +24,22 @@ module Result = {
     let listLength = Array.length(results);
     switch (listLength) {
     | 0 =>
-      <Typography align=`center>
+      <MaterialUi_Typography align=`Center>
         {ReasonReact.string("Intet at udregne endnu")}
-      </Typography>
+      </MaterialUi_Typography>
     | 1 =>
       let result = results[0];
-      <Typography align=`center>
+      <MaterialUi_Typography align=`Center>
         {ReasonReact.string({j| Strik 1 maske ind pr $result maske(r) |j})}
-      </Typography>;
+      </MaterialUi_Typography>;
     | _ =>
       results
       |> Array.mapi((index, result) =>
-           <Typography align=`center key={string_of_int(index)}>
+           <MaterialUi_Typography align=`Center key={string_of_int(index)}>
              {ReasonReact.string(
                 {j| strik 1 maske ind pr $result maske(r) |j},
               )}
-           </Typography>
+           </MaterialUi_Typography>
          )
       |> ReasonReact.array
     };

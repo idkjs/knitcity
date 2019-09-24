@@ -12,36 +12,37 @@ module Styles = {
 type updateActions =
   | Count(int)
   | Reset(int);
-
+let rs = React.string;
 [@react.component]
-let make =
-    (~rows, ~title, ~newValues: updateActions => unit, ~index) => {
-    <>
-      <Typography align=`center variant=`body1> {ReasonReact.string(title)} </Typography>
-      <Grid direction=`column alignItems=`center>
-        <Grid.Item>
-          <div
-            onClick={_e => newValues(Count(index))}
-            className=Styles.numberWrapper>
-            <Typography variant=`h6>
-              {ReasonReact.string(string_of_int(rows))}
-            </Typography>
-          </div>
-        </Grid.Item>
-        <Grid.Item>
-          <Grid>
-            <Grid.Item>
-              <Button variant=`text onClick={_e => newValues(Count(index))}>
-                {ReasonReact.string("+1")}
-              </Button>
-            </Grid.Item>
-            <Grid.Item>
-              <Button variant=`text onClick={_e => newValues(Reset(index))}>
-                {ReasonReact.string("Reset")}
-              </Button>
-            </Grid.Item>
-          </Grid>
-        </Grid.Item>
-      </Grid>
-    </>;
+let make = (~rows, ~title, ~newValues: updateActions => unit, ~index) => {
+  <>
+    <MaterialUi_Typography align=`Center variant=`Body1>
+      title->rs
+    </MaterialUi_Typography>
+    <MaterialUi.Grid direction=`Column alignItems=`Center>
+      <MaterialUi.Grid item=true>
+        <div
+          onClick={_e => newValues(Count(index))}
+          className=Styles.numberWrapper>
+          <MaterialUi_Typography variant=`H6>
+            {React.string(string_of_int(rows))}
+          </MaterialUi_Typography>
+        </div>
+      </MaterialUi.Grid>
+      <MaterialUi.Grid item=true>
+        <MaterialUi.Grid>
+          <MaterialUi.Grid item=true>
+            <MaterialUi.Button variant=`Text onClick={_e => newValues(Count(index))}>
+              {React.string("+1")}
+            </MaterialUi.Button>
+          </MaterialUi.Grid>
+          <MaterialUi.Grid item=true>
+            <MaterialUi.Button variant=`Text onClick={_e => newValues(Reset(index))}>
+              {React.string("Reset")}
+            </MaterialUi.Button>
+          </MaterialUi.Grid>
+        </MaterialUi.Grid>
+      </MaterialUi.Grid>
+    </MaterialUi.Grid>
+  </>;
 };

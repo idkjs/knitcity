@@ -5,14 +5,15 @@ var Css = require("bs-css/src/Css.js");
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
-var ReasonReact = require("reason-react/src/ReasonReact.js");
+var Caml_option = require("bs-platform/lib/js/caml_option.js");
 var Caml_primitive = require("bs-platform/lib/js/caml_primitive.js");
-var Grid$KnitZilla = require("./mat-bindings/Grid.bs.js");
 var Util$KnitZilla = require("./util.bs.js");
+var MaterialUi_Grid = require("@jsiebern/bs-material-ui/src/MaterialUi_Grid.bs.js");
+var Core = require("@material-ui/core");
 var ReasonReactRouter = require("reason-react/src/ReasonReactRouter.js");
-var TextField$KnitZilla = require("./mat-bindings/TextField.bs.js");
-var Typography$KnitZilla = require("./mat-bindings/Typography.bs.js");
-var NavigationIcons$KnitZilla = require("./mat-bindings/NavigationIcons.bs.js");
+var MaterialUi_TextField = require("@jsiebern/bs-material-ui/src/MaterialUi_TextField.bs.js");
+var MaterialUi_Typography = require("@jsiebern/bs-material-ui/src/MaterialUi_Typography.bs.js");
+var ArrowForwardRounded = require("@material-ui/icons/ArrowForwardRounded");
 
 var headerStyle = Css.style(/* :: */[
       Css.position(Css.absolute),
@@ -33,33 +34,13 @@ var headerStyle = Css.style(/* :: */[
 
 var Style = /* module */[/* headerStyle */headerStyle];
 
-var component = ReasonReact.statelessComponent("Header");
-
-function make(_children) {
-  return /* record */[
-          /* debugName */component[/* debugName */0],
-          /* reactClassInternal */component[/* reactClassInternal */1],
-          /* handedOffState */component[/* handedOffState */2],
-          /* willReceiveProps */component[/* willReceiveProps */3],
-          /* didMount */component[/* didMount */4],
-          /* didUpdate */component[/* didUpdate */5],
-          /* willUnmount */component[/* willUnmount */6],
-          /* willUpdate */component[/* willUpdate */7],
-          /* shouldUpdate */component[/* shouldUpdate */8],
-          /* render */(function (_self) {
-              return ReasonReact.element(undefined, undefined, Typography$KnitZilla.make(/* h3 */23243, undefined, headerStyle, /* array */["KnitZilla"]));
-            }),
-          /* initialState */component[/* initialState */10],
-          /* retainedProps */component[/* retainedProps */11],
-          /* reducer */component[/* reducer */12],
-          /* jsElementWrapped */component[/* jsElementWrapped */13]
-        ];
+function App$Header(Props) {
+  return React.createElement(Core.Typography, MaterialUi_Typography.makeProps(undefined, "KnitZilla", headerStyle, undefined, undefined, undefined, undefined, undefined, undefined, /* H3 */16107, undefined, undefined, undefined, undefined, undefined, /* () */0));
 }
 
 var Header = /* module */[
   /* Style */Style,
-  /* component */component,
-  /* make */make
+  /* make */App$Header
 ];
 
 var innerRoot = Css.style(/* :: */[
@@ -110,8 +91,6 @@ var Styles = /* module */[
   /* floatingNextButton */floatingNextButton
 ];
 
-var component$1 = ReasonReact.reducerComponent("AppRoot");
-
 function nanTest(toTest) {
   var nanTest$1 = Caml_primitive.caml_float_compare(toTest, Number.NaN);
   if (nanTest$1 !== 0) {
@@ -121,64 +100,65 @@ function nanTest(toTest) {
   }
 }
 
-function make$1(_children) {
-  return /* record */[
-          /* debugName */component$1[/* debugName */0],
-          /* reactClassInternal */component$1[/* reactClassInternal */1],
-          /* handedOffState */component$1[/* handedOffState */2],
-          /* willReceiveProps */component$1[/* willReceiveProps */3],
-          /* didMount */component$1[/* didMount */4],
-          /* didUpdate */component$1[/* didUpdate */5],
-          /* willUnmount */component$1[/* willUnmount */6],
-          /* willUpdate */component$1[/* willUpdate */7],
-          /* shouldUpdate */component$1[/* shouldUpdate */8],
-          /* render */(function (self) {
-              var match = self[/* state */1][/* currentMasks */0] === 0;
-              var match$1 = self[/* state */1][/* masksToInsert */1] === 0;
-              return React.createElement(React.Fragment, undefined, React.createElement("div", {
-                              className: innerRoot
-                            }, ReasonReact.element(undefined, undefined, Grid$KnitZilla.make(undefined, /* center */98248149, /* column */-963948842, /* center */98248149, /* Three */3, /* array */[
-                                      ReasonReact.element(undefined, undefined, Grid$KnitZilla.Item[/* make */0](undefined, /* array */[ReasonReact.element(undefined, undefined, TextField$KnitZilla.make(match ? "" : String(self[/* state */1][/* currentMasks */0]), true, (function (e) {
-                                                            return Curry._1(self[/* send */3], /* SetCurrentMasks */Block.__(0, [e.target.valueAsNumber]));
-                                                          }), "Antal masker", /* number */561678025, /* outlined */613841570, undefined, /* array */[]))])),
-                                      ReasonReact.element(undefined, undefined, Grid$KnitZilla.Item[/* make */0](undefined, /* array */[ReasonReact.element(undefined, undefined, TextField$KnitZilla.make(match$1 ? "" : String(self[/* state */1][/* masksToInsert */1]), true, (function (e) {
-                                                            return Curry._1(self[/* send */3], /* SetMasksToInsert */Block.__(1, [e.target.valueAsNumber]));
-                                                          }), "Indsæt", /* number */561678025, /* outlined */613841570, undefined, /* array */[]))])),
-                                      ReasonReact.element(undefined, undefined, Grid$KnitZilla.Item[/* make */0](undefined, /* array */[ReasonReact.element(undefined, undefined, Util$KnitZilla.Result[/* make */1](Util$KnitZilla.calculateMasks(self[/* state */1][/* currentMasks */0], self[/* state */1][/* masksToInsert */1]), /* array */[]))]))
-                                    ]))), React.createElement("div", {
-                              className: floatingNextButton,
-                              onClick: (function (_e) {
-                                  return ReasonReactRouter.push("/calc");
-                                })
-                            }, ReasonReact.element(undefined, undefined, NavigationIcons$KnitZilla.Forward[/* make */0](undefined, /* array */[]))));
-            }),
-          /* initialState */(function (param) {
-              return /* record */[
-                      /* currentMasks */0,
-                      /* masksToInsert */0
-                    ];
-            }),
-          /* retainedProps */component$1[/* retainedProps */11],
-          /* reducer */(function (action, state) {
-              if (action.tag) {
-                return /* Update */Block.__(0, [/* record */[
-                            /* currentMasks */state[/* currentMasks */0],
-                            /* masksToInsert */nanTest(action[0])
-                          ]]);
-              } else {
-                return /* Update */Block.__(0, [/* record */[
-                            /* currentMasks */nanTest(action[0]),
-                            /* masksToInsert */state[/* masksToInsert */1]
-                          ]]);
-              }
-            }),
-          /* jsElementWrapped */component$1[/* jsElementWrapped */13]
-        ];
+var initialState = /* record */[
+  /* currentMasks */0,
+  /* masksToInsert */0
+];
+
+function reducer(state, action) {
+  if (action.tag) {
+    return /* record */[
+            /* currentMasks */state[/* currentMasks */0],
+            /* masksToInsert */nanTest(action[0])
+          ];
+  } else {
+    return /* record */[
+            /* currentMasks */nanTest(action[0]),
+            /* masksToInsert */state[/* masksToInsert */1]
+          ];
+  }
 }
+
+function App(Props) {
+  var match = React.useReducer(reducer, initialState);
+  var dispatch = match[1];
+  var state = match[0];
+  var match$1 = state[/* currentMasks */0] === 0;
+  var match$2 = state[/* masksToInsert */1] === 0;
+  return React.createElement(React.Fragment, undefined, React.createElement("div", {
+                  className: innerRoot
+                }, React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, /* Center */980392437, Caml_option.some(null), undefined, undefined, undefined, /* Column */-81804554, undefined, /* Center */980392437, undefined, undefined, undefined, /* V3 */3, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0), React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, undefined, Caml_option.some(React.createElement(Core.TextField, MaterialUi_TextField.makeProps(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, true, undefined, undefined, undefined, undefined, undefined, undefined, undefined, "Antal masker", undefined, undefined, undefined, undefined, (function (e) {
+                                            return Curry._1(dispatch, /* SetCurrentMasks */Block.__(0, [e.target.valueAsNumber]));
+                                          }), undefined, undefined, undefined, undefined, undefined, undefined, undefined, "number", match$1 ? /* `String */[
+                                            -976970511,
+                                            ""
+                                          ] : /* `Int */[
+                                            3654863,
+                                            state[/* currentMasks */0]
+                                          ], /* Outlined */-28821822, undefined, undefined, undefined, undefined, undefined, /* () */0))), undefined, undefined, undefined, undefined, true, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0)), React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, undefined, Caml_option.some(React.createElement(Core.TextField, MaterialUi_TextField.makeProps(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, true, undefined, undefined, undefined, undefined, undefined, undefined, undefined, Caml_option.some("Indsæt"), undefined, undefined, undefined, undefined, (function (e) {
+                                            return Curry._1(dispatch, /* SetMasksToInsert */Block.__(1, [e.target.valueAsNumber]));
+                                          }), undefined, undefined, undefined, undefined, undefined, undefined, undefined, "number", match$2 ? /* `String */[
+                                            -976970511,
+                                            ""
+                                          ] : /* `Int */[
+                                            3654863,
+                                            state[/* masksToInsert */1]
+                                          ], /* Outlined */-28821822, undefined, undefined, undefined, undefined, undefined, /* () */0))), undefined, undefined, undefined, undefined, true, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0)), React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, undefined, Caml_option.some(React.createElement(Util$KnitZilla.Result[/* make */0], {
+                                      results: Util$KnitZilla.calculateMasks(state[/* currentMasks */0], state[/* masksToInsert */1])
+                                    })), undefined, undefined, undefined, undefined, true, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0)))), React.createElement("div", {
+                  className: floatingNextButton,
+                  onClick: (function (_e) {
+                      return ReasonReactRouter.push("/calc");
+                    })
+                }, React.createElement(ArrowForwardRounded.default, { })));
+}
+
+var make = App;
 
 exports.Header = Header;
 exports.Styles = Styles;
-exports.component = component$1;
 exports.nanTest = nanTest;
-exports.make = make$1;
+exports.initialState = initialState;
+exports.reducer = reducer;
+exports.make = make;
 /* headerStyle Not a pure module */

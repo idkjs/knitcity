@@ -5,10 +5,11 @@ var Css = require("bs-css/src/Css.js");
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
-var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Grid$KnitZilla = require("./mat-bindings/Grid.bs.js");
-var Button$KnitZilla = require("./mat-bindings/button.bs.js");
-var Typography$KnitZilla = require("./mat-bindings/Typography.bs.js");
+var Caml_option = require("bs-platform/lib/js/caml_option.js");
+var MaterialUi_Grid = require("@jsiebern/bs-material-ui/src/MaterialUi_Grid.bs.js");
+var Core = require("@material-ui/core");
+var MaterialUi_Button = require("@jsiebern/bs-material-ui/src/MaterialUi_Button.bs.js");
+var MaterialUi_Typography = require("@jsiebern/bs-material-ui/src/MaterialUi_Typography.bs.js");
 
 var floatingRightSideBack = Css.style(/* :: */[
       Css.position(Css.absolute),
@@ -40,45 +41,30 @@ var Styles = /* module */[
   /* numberWrapper */numberWrapper
 ];
 
-var component = ReasonReact.statelessComponent("RowCalculator");
-
-function make(rows, title, newValues, index, _children) {
-  return /* record */[
-          /* debugName */component[/* debugName */0],
-          /* reactClassInternal */component[/* reactClassInternal */1],
-          /* handedOffState */component[/* handedOffState */2],
-          /* willReceiveProps */component[/* willReceiveProps */3],
-          /* didMount */component[/* didMount */4],
-          /* didUpdate */component[/* didUpdate */5],
-          /* willUnmount */component[/* willUnmount */6],
-          /* willUpdate */component[/* willUpdate */7],
-          /* shouldUpdate */component[/* shouldUpdate */8],
-          /* render */(function (_self) {
-              return React.createElement(React.Fragment, undefined, ReasonReact.element(undefined, undefined, Typography$KnitZilla.make(undefined, undefined, undefined, /* array */[title])), ReasonReact.element(undefined, undefined, Grid$KnitZilla.make(undefined, /* center */98248149, /* column */-963948842, undefined, undefined, /* array */[
-                                  ReasonReact.element(undefined, undefined, Grid$KnitZilla.Item[/* make */0](undefined, /* array */[React.createElement("div", {
-                                                  className: numberWrapper,
-                                                  onClick: (function (_e) {
-                                                      return Curry._1(newValues, /* Count */Block.__(0, [index]));
-                                                    })
-                                                }, ReasonReact.element(undefined, undefined, Typography$KnitZilla.make(/* h6 */23246, undefined, undefined, /* array */[String(rows)])))])),
-                                  ReasonReact.element(undefined, undefined, Grid$KnitZilla.Item[/* make */0](undefined, /* array */[ReasonReact.element(undefined, undefined, Grid$KnitZilla.make(undefined, undefined, undefined, undefined, undefined, /* array */[
-                                                      ReasonReact.element(undefined, undefined, Grid$KnitZilla.Item[/* make */0](undefined, /* array */[ReasonReact.element(undefined, undefined, Button$KnitZilla.make(/* text */-856044371, (function (_e) {
-                                                                            return Curry._1(newValues, /* Count */Block.__(0, [index]));
-                                                                          }), undefined, /* array */["+1"]))])),
-                                                      ReasonReact.element(undefined, undefined, Grid$KnitZilla.Item[/* make */0](undefined, /* array */[ReasonReact.element(undefined, undefined, Button$KnitZilla.make(/* text */-856044371, (function (_e) {
-                                                                            return Curry._1(newValues, /* Reset */Block.__(1, [index]));
-                                                                          }), undefined, /* array */["Reset"]))]))
-                                                    ]))]))
-                                ])));
-            }),
-          /* initialState */component[/* initialState */10],
-          /* retainedProps */component[/* retainedProps */11],
-          /* reducer */component[/* reducer */12],
-          /* jsElementWrapped */component[/* jsElementWrapped */13]
-        ];
+function rs(prim) {
+  return prim;
 }
 
+function RowCalc(Props) {
+  var rows = Props.rows;
+  var title = Props.title;
+  var newValues = Props.newValues;
+  var index = Props.index;
+  return React.createElement(React.Fragment, undefined, React.createElement(Core.Typography, MaterialUi_Typography.makeProps(/* Center */980392437, Caml_option.some(title), undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* Body1 */-904051921, undefined, undefined, undefined, undefined, undefined, /* () */0)), React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, /* Center */980392437, Caml_option.some(null), undefined, undefined, undefined, /* Column */-81804554, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0), React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, undefined, Caml_option.some(React.createElement("div", {
+                                  className: numberWrapper,
+                                  onClick: (function (_e) {
+                                      return Curry._1(newValues, /* Count */Block.__(0, [index]));
+                                    })
+                                }, React.createElement(Core.Typography, MaterialUi_Typography.makeProps(undefined, Caml_option.some(String(rows)), undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* H6 */16110, undefined, undefined, undefined, undefined, undefined, /* () */0)))), undefined, undefined, undefined, undefined, true, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0)), React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, undefined, Caml_option.some(React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, undefined, Caml_option.some(null), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0), React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, undefined, Caml_option.some(React.createElement(Core.Button, MaterialUi_Button.makeProps("+1", undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* Text */936573133, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, (function (_e) {
+                                                        return Curry._1(newValues, /* Count */Block.__(0, [index]));
+                                                      }), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0))), undefined, undefined, undefined, undefined, true, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0)), React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, undefined, Caml_option.some(React.createElement(Core.Button, MaterialUi_Button.makeProps("Reset", undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* Text */936573133, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, (function (_e) {
+                                                        return Curry._1(newValues, /* Reset */Block.__(1, [index]));
+                                                      }), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0))), undefined, undefined, undefined, undefined, true, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0)))), undefined, undefined, undefined, undefined, true, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0))));
+}
+
+var make = RowCalc;
+
 exports.Styles = Styles;
-exports.component = component;
+exports.rs = rs;
 exports.make = make;
 /* floatingRightSideBack Not a pure module */

@@ -11,14 +11,14 @@ var Caml_array = require("bs-platform/lib/js/caml_array.js");
 var Caml_option = require("bs-platform/lib/js/caml_option.js");
 var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
-var ReasonReact = require("reason-react/src/ReasonReact.js");
 var App$KnitZilla = require("./App.bs.js");
-var Grid$KnitZilla = require("./mat-bindings/Grid.bs.js");
-var Button$KnitZilla = require("./mat-bindings/button.bs.js");
+var MaterialUi_Grid = require("@jsiebern/bs-material-ui/src/MaterialUi_Grid.bs.js");
+var Core = require("@material-ui/core");
+var MaterialUi_Button = require("@jsiebern/bs-material-ui/src/MaterialUi_Button.bs.js");
 var ReasonReactRouter = require("reason-react/src/ReasonReactRouter.js");
 var RowCalc$KnitZilla = require("./RowCalc.bs.js");
-var TextField$KnitZilla = require("./mat-bindings/TextField.bs.js");
-var NavigationIcons$KnitZilla = require("./mat-bindings/NavigationIcons.bs.js");
+var MaterialUi_TextField = require("@jsiebern/bs-material-ui/src/MaterialUi_TextField.bs.js");
+var ArrowBackRounded = require("@material-ui/icons/ArrowBackRounded");
 
 function decodeRow(jsonString) {
   return /* record */[
@@ -130,125 +130,125 @@ var Styles = /* module */[
   /* counterContainer */counterContainer
 ];
 
-var component = ReasonReact.reducerComponent("RowCalcRoot");
+var jsonStringOpt = localStorage.getItem("rowCalcs");
 
-function make(_children) {
-  return /* record */[
-          /* debugName */component[/* debugName */0],
-          /* reactClassInternal */component[/* reactClassInternal */1],
-          /* handedOffState */component[/* handedOffState */2],
-          /* willReceiveProps */component[/* willReceiveProps */3],
-          /* didMount */component[/* didMount */4],
-          /* didUpdate */(function (param) {
-              var newSelf = param[/* newSelf */1];
-              console.log(newSelf[/* state */1][/* rows */0]);
-              localStorage.setItem("rowCalcs", Json.stringify(Json_encode.array(encodeRow, newSelf[/* state */1][/* rows */0])));
-              return /* () */0;
-            }),
-          /* willUnmount */component[/* willUnmount */6],
-          /* willUpdate */component[/* willUpdate */7],
-          /* shouldUpdate */component[/* shouldUpdate */8],
-          /* render */(function (self) {
-              return React.createElement(React.Fragment, undefined, React.createElement("div", {
-                              className: App$KnitZilla.Styles[/* innerRoot */0] + (" " + counterContainer)
-                            }, ReasonReact.element(undefined, undefined, Grid$KnitZilla.make(undefined, undefined, undefined, /* center */98248149, undefined, /* array */[$$Array.mapi((function (index, a) {
-                                              return ReasonReact.element(String(index), undefined, Grid$KnitZilla.Item[/* make */0](undefined, /* array */[ReasonReact.element(undefined, undefined, RowCalc$KnitZilla.make(a[/* rows */1], a[/* title */0], (function (action) {
-                                                                          if (action.tag) {
-                                                                            return Curry._1(self[/* send */3], /* UpdateRowReset */Block.__(2, [action[0]]));
-                                                                          } else {
-                                                                            return Curry._1(self[/* send */3], /* UpdateRowIncrement */Block.__(0, [action[0]]));
-                                                                          }
-                                                                        }), index, /* array */[]))]));
-                                            }), self[/* state */1][/* rows */0])]))), React.createElement("div", {
-                              className: formControl
-                            }, ReasonReact.element(undefined, undefined, Button$KnitZilla.make(undefined, (function (_e) {
-                                        return Curry._1(self[/* send */3], /* AddNewRow */0);
-                                      }), undefined, /* array */["+ counter"])), ReasonReact.element(undefined, undefined, Button$KnitZilla.make(undefined, (function (_e) {
-                                        return Curry._1(self[/* send */3], /* Reset */2);
-                                      }), undefined, /* array */["Reset"])), ReasonReact.element(undefined, undefined, TextField$KnitZilla.make(self[/* state */1][/* titleVal */1], false, (function (e) {
-                                        return Curry._1(self[/* send */3], /* ChangeText */Block.__(1, [e.target.value]));
-                                      }), "Name", /* text */-856044371, undefined, undefined, /* array */[]))), React.createElement("div", {
-                              className: floatingRightSideBack,
-                              onClick: (function (_e) {
-                                  return ReasonReactRouter.push("/");
-                                })
-                            }, ReasonReact.element(undefined, undefined, NavigationIcons$KnitZilla.Back[/* make */0](undefined, /* array */[]))));
-            }),
-          /* initialState */(function (param) {
-              var jsonStringOpt = localStorage.getItem("rowCalcs");
-              var rows;
-              if (jsonStringOpt !== null) {
-                var match = Json.parse(jsonStringOpt);
-                rows = match !== undefined ? Json_decode.array(decodeRow, Caml_option.valFromOption(match)) : /* array */[];
-              } else {
-                rows = /* array */[];
-              }
-              return /* record */[
-                      /* rows */rows,
-                      /* titleVal */""
-                    ];
-            }),
-          /* retainedProps */component[/* retainedProps */11],
-          /* reducer */(function (action, state) {
-              if (typeof action === "number") {
-                switch (action) {
-                  case 0 : 
-                      var newRows = /* array */[/* record */[
-                          /* title */state[/* titleVal */1],
-                          /* rows */0
-                        ]];
-                      return /* Update */Block.__(0, [/* record */[
-                                  /* rows */$$Array.concat(/* :: */[
-                                        state[/* rows */0],
-                                        /* :: */[
-                                          newRows,
-                                          /* [] */0
-                                        ]
-                                      ]),
-                                  /* titleVal */""
-                                ]]);
-                  case 1 : 
-                      return /* Update */Block.__(0, [state]);
-                  case 2 : 
-                      return /* Update */Block.__(0, [/* record */[
-                                  /* rows : array */[],
-                                  /* titleVal */state[/* titleVal */1]
-                                ]]);
-                  
-                }
-              } else {
-                switch (action.tag | 0) {
-                  case 0 : 
-                      var index = action[0];
-                      var toUpdate = Caml_array.caml_array_get(state[/* rows */0], index);
-                      Caml_array.caml_array_set(state[/* rows */0], index, /* record */[
-                            /* title */toUpdate[/* title */0],
-                            /* rows */toUpdate[/* rows */1] + 1 | 0
-                          ]);
-                      return /* Update */Block.__(0, [state]);
-                  case 1 : 
-                      return /* Update */Block.__(0, [/* record */[
-                                  /* rows */state[/* rows */0],
-                                  /* titleVal */action[0]
-                                ]]);
-                  case 2 : 
-                      var index$1 = action[0];
-                      var toUpdate$1 = Caml_array.caml_array_get(state[/* rows */0], index$1);
-                      Caml_array.caml_array_set(state[/* rows */0], index$1, /* record */[
-                            /* title */toUpdate$1[/* title */0],
-                            /* rows */0
-                          ]);
-                      return /* Update */Block.__(0, [state]);
-                  
-                }
-              }
-            }),
-          /* jsElementWrapped */component[/* jsElementWrapped */13]
-        ];
+var rows;
+
+if (jsonStringOpt !== null) {
+  var match = Json.parse(jsonStringOpt);
+  rows = match !== undefined ? Json_decode.array(decodeRow, Caml_option.valFromOption(match)) : /* array */[];
+} else {
+  rows = /* array */[];
 }
+
+var initialState = /* record */[
+  /* rows */rows,
+  /* titleVal */""
+];
+
+function reducer(state, action) {
+  if (typeof action === "number") {
+    switch (action) {
+      case 0 : 
+          var newRows = /* array */[/* record */[
+              /* title */state[/* titleVal */1],
+              /* rows */0
+            ]];
+          return /* record */[
+                  /* rows */$$Array.concat(/* :: */[
+                        state[/* rows */0],
+                        /* :: */[
+                          newRows,
+                          /* [] */0
+                        ]
+                      ]),
+                  /* titleVal */""
+                ];
+      case 1 : 
+          return state;
+      case 2 : 
+          return /* record */[
+                  /* rows : array */[],
+                  /* titleVal */state[/* titleVal */1]
+                ];
+      
+    }
+  } else {
+    switch (action.tag | 0) {
+      case 0 : 
+          var index = action[0];
+          var toUpdate = Caml_array.caml_array_get(state[/* rows */0], index);
+          Caml_array.caml_array_set(state[/* rows */0], index, /* record */[
+                /* title */toUpdate[/* title */0],
+                /* rows */toUpdate[/* rows */1] + 1 | 0
+              ]);
+          return state;
+      case 1 : 
+          return /* record */[
+                  /* rows */state[/* rows */0],
+                  /* titleVal */action[0]
+                ];
+      case 2 : 
+          var index$1 = action[0];
+          var toUpdate$1 = Caml_array.caml_array_get(state[/* rows */0], index$1);
+          Caml_array.caml_array_set(state[/* rows */0], index$1, /* record */[
+                /* title */toUpdate$1[/* title */0],
+                /* rows */0
+              ]);
+          return state;
+      
+    }
+  }
+}
+
+function RowCalcRoot(Props) {
+  var match = React.useReducer(reducer, initialState);
+  var dispatch = match[1];
+  var state = match[0];
+  React.useEffect((function () {
+          console.log(state[/* rows */0]);
+          localStorage.setItem("rowCalcs", Json.stringify(Json_encode.array(encodeRow, state[/* rows */0])));
+          return undefined;
+        }), /* array */[state]);
+  return React.createElement(React.Fragment, undefined, React.createElement("div", {
+                  className: App$KnitZilla.Styles[/* innerRoot */0] + (" " + counterContainer)
+                }, React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, undefined, Caml_option.some($$Array.mapi((function (index, a) {
+                                    return React.createElement(Core.Grid, MaterialUi_Grid.makeProps(undefined, undefined, Caml_option.some(React.createElement(RowCalc$KnitZilla.make, {
+                                                            rows: a[/* rows */1],
+                                                            title: a[/* title */0],
+                                                            newValues: (function (action) {
+                                                                if (action.tag) {
+                                                                  return Curry._1(dispatch, /* UpdateRowReset */Block.__(2, [action[0]]));
+                                                                } else {
+                                                                  return Curry._1(dispatch, /* UpdateRowIncrement */Block.__(0, [action[0]]));
+                                                                }
+                                                              }),
+                                                            index: index
+                                                          })), undefined, undefined, undefined, undefined, true, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, String(index), undefined, undefined, undefined, /* () */0));
+                                  }), state[/* rows */0])), undefined, undefined, undefined, undefined, undefined, /* Center */980392437, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0))), React.createElement("div", {
+                  className: formControl
+                }, React.createElement(Core.Button, MaterialUi_Button.makeProps("+ counter", undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, (function (_e) {
+                            return Curry._1(dispatch, /* AddNewRow */0);
+                          }), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0)), React.createElement(Core.Button, MaterialUi_Button.makeProps("Reset", undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, (function (_e) {
+                            return Curry._1(dispatch, /* Reset */2);
+                          }), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0)), React.createElement(Core.TextField, MaterialUi_TextField.makeProps(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, false, undefined, undefined, undefined, undefined, undefined, undefined, undefined, "Name", undefined, undefined, undefined, undefined, (function (e) {
+                            return Curry._1(dispatch, /* ChangeText */Block.__(1, [e.target.value]));
+                          }), undefined, undefined, undefined, undefined, undefined, undefined, undefined, "text", /* `String */[
+                          -976970511,
+                          state[/* titleVal */1]
+                        ], undefined, undefined, undefined, undefined, undefined, undefined, /* () */0))), React.createElement("div", {
+                  className: floatingRightSideBack,
+                  onClick: (function (_e) {
+                      return ReasonReactRouter.push("/");
+                    })
+                }, React.createElement(ArrowBackRounded.default, { })));
+}
+
+var make = RowCalcRoot;
 
 exports.RowCalcParser = RowCalcParser;
 exports.Styles = Styles;
-exports.component = component;
+exports.initialState = initialState;
+exports.reducer = reducer;
 exports.make = make;
 /* floatingRightSideBack Not a pure module */

@@ -11,9 +11,9 @@ module Header = {
   };
   [@react.component]
   let make = () => {
-      <Typography className=Style.headerStyle variant=`h3>
-        {ReasonReact.string("KnitZilla")}
-      </Typography>;
+    <MaterialUi_Typography className=Style.headerStyle variant=`H3>
+      "KnitZilla"->React.string
+    </MaterialUi_Typography>;
   };
 };
 module Styles = {
@@ -49,68 +49,65 @@ let nanTest = toTest => {
 };
 let initialState = {currentMasks: 0, masksToInsert: 0};
 let reducer = (state, action) =>
-    switch (action) {
-    | SetCurrentMasks(toSet) =>
-      ReasonReact.Update({...state, currentMasks: nanTest(toSet)})
-    | SetMasksToInsert(toSet) =>
-      ReasonReact.Update({...state, masksToInsert: nanTest(toSet)})
-    };
+  switch (action) {
+  | SetCurrentMasks(toSet) => {...state, currentMasks: nanTest(toSet)}
+  | SetMasksToInsert(toSet) => {...state, masksToInsert: nanTest(toSet)}
+  };
 [@react.component]
 let make = () => {
   let (state, dispatch) = React.useReducer(reducer, initialState);
 
-    <>
-      <div className=Styles.innerRoot>
-        <Grid
-          spacing=Three direction=`column alignItems=`center justify=`center>
-          <Grid.Item>
-            <TextField
-              variant=`outlined
-              label={ReasonReact.string("Antal masker")}
-              fullWidth=true
-              value={
-                state.currentMasks === 0
-                  ? "" : string_of_int(state.currentMasks)
-              }
-              type_=`number
-              onChange={e =>
-                dispatch(
-                  SetCurrentMasks(ReactEvent.Form.target(e)##valueAsNumber),
-                )
-              }
-            />
-          </Grid.Item>
-          <Grid.Item>
-            <TextField
-              variant=`outlined
-              label={ReasonReact.string({js|Indsæt|js})}
-              type_=`number
-              fullWidth=true
-              value={
-                state.masksToInsert === 0
-                  ? "" : string_of_int(state.masksToInsert)
-              }
-              onChange={e =>
-                dispatch(
-                  SetMasksToInsert(ReactEvent.Form.target(e)##valueAsNumber),
-                )
-              }
-            />
-          </Grid.Item>
-          <Grid.Item>
-            <Util.Result
-              results={Util.calculateMasks(
-                ~currentMasks=state.currentMasks,
-                ~masksToInsertOrRemove=state.masksToInsert,
-              )}
-            />
-          </Grid.Item>
-        </Grid>
-      </div>
-      <div
-        className=Styles.floatingNextButton
-        onClick={_e => ReasonReact.Router.push("/calc")}>
-        <NavigationIcons.Forward />
-      </div>
-    </>;
+  <>
+    <div className=Styles.innerRoot>
+      <MaterialUi.Grid spacing=V3 direction=`Column alignItems=`Center justify=`Center>
+        <MaterialUi.Grid item=true>
+          <MaterialUi.TextField
+            variant=`Outlined
+            label={ReasonReact.string("Antal masker")}
+            fullWidth=true
+            value={
+              state.currentMasks === 0
+                ? `String("") : `Int(state.currentMasks)
+            }
+            type_="number"
+            onChange={e =>
+              dispatch(
+                SetCurrentMasks(ReactEvent.Form.target(e)##valueAsNumber),
+              )
+            }
+          />
+        </MaterialUi.Grid>
+        <MaterialUi.Grid item=true>
+          <MaterialUi.TextField
+            variant=`Outlined
+            label={ReasonReact.string({js|Indsæt|js})}
+            type_="number"
+            fullWidth=true
+            value={
+              state.masksToInsert === 0
+                ? `String("")  : `Int(state.masksToInsert)
+            }
+            onChange={e =>
+              dispatch(
+                SetMasksToInsert(ReactEvent.Form.target(e)##valueAsNumber),
+              )
+            }
+          />
+        </MaterialUi.Grid>
+        <MaterialUi.Grid item=true>
+          <Util.Result
+            results={Util.calculateMasks(
+              ~currentMasks=state.currentMasks,
+              ~masksToInsertOrRemove=state.masksToInsert,
+            )}
+          />
+        </MaterialUi.Grid>
+      </MaterialUi.Grid>
+    </div>
+    <div
+      className=Styles.floatingNextButton
+      onClick={_e => ReasonReactRouter.push("/calc")}>
+      <NavigationIcons.Forward />
+    </div>
+  </>;
 };

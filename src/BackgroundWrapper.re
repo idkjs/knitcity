@@ -20,6 +20,7 @@ module Styles = {
 type routes =
   | Home
   | Calc;
+
 type state = {
   activeRoute: routes,
   startClientX: int,
@@ -32,71 +33,73 @@ type actions =
 type direction =
   | Left
   | Right;
-let component = ReasonReact.reducerComponent("BackgroundWrapper");
-let x = ref(0);
-let make = _children => {
-  ...component,
-  didMount: self => {
-    let touchListen =
-      ReasonReact.Router.watchUrl(url =>
-        switch (url.path) {
-        | ["calc"] => self.send(Route(Calc))
-        | _ => self.send(Route(Home))
-        }
-      );
-    // a little better logic here please. But this works
-    addEventListener("touchstart", e => {
-      let touch =
-        ReactEvent.Touch.touches(e)
-        ->TouchEvent.Touch.castReactTouchListToTouchArray
-        ->(Array.get(0));
-      let touchVal = touch##clientX;
-      x := touchVal;
-    });
-
-    addEventListener("touchend", e => {
-      let touch =
-        ReactEvent.Touch.changedTouches(e)
-        ->TouchEvent.Touch.castReactTouchListToTouchArray
-        ->(Array.get(0));
-      let totalWindowWidth =
-        float_of_int(touch##target->Webapi.Dom.Element.clientWidth);
-      let screenChange = x^ - touch##clientX;
-      let minReqMovement = totalWindowWidth *. 0.25;
-      let dir = screenChange > 0 ? Left : Right;
-      if (abs(screenChange) > int_of_float(minReqMovement)) {
-        switch (dir) {
-        | Left => ReasonReact.Router.push("/calc")
-        | Right => ReasonReact.Router.push("/")
-        };
-      };
-      x := 0;
-    });
-
-    self.onUnmount(() => ReasonReact.Router.unwatchUrl(touchListen));
-  },
-  reducer: (action, state) => {
-    switch (action) {
-    | Route(toChange) =>
-      ReasonReact.Update({...state, activeRoute: toChange})
-    | TouchStart(startX) =>
-      ReasonReact.Update({...state, startClientX: startX})
-    };
-  },
-  initialState: () => {activeRoute: Home, startClientX: 0},
-  render: self =>
-    <div className=Styles.root>
-      <App.Header />
-      {switch (self.state.activeRoute) {
-       | Home => <App />
-       | Calc => <RowCalcRoot />
-       }}
-    </div>,
+let reducer = (state, action) => {
+  switch (action) {
+  | Route(toChange) => {...state, activeRoute: toChange}
+  | TouchStart(startX) => {...state, startClientX: startX}
+  };
 };
-[@bs.deriving abstract]
-type jsProps = {children: array(ReasonReact.reactElement)};
+let initialState = {activeRoute: Home, startClientX: 0};
+let x = ref(0);
+[@react.component]
+let make = () => {
+  let (state, dispatch) = React.useReducer(reducer, initialState);
+  let useAppUrl = () => {
+    let url = ReasonReactRouter.useUrl();
 
-let default =
-  ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(jsProps->childrenGet)
+    switch (url.path) {
+    | ["calc"] => dispatch(Route(Calc))
+    | _ => dispatch(Route(Home))
+    };
+  };
+  React.useEffect1(
+    () => {
+      let touchListen =
+        ReasonReact.Router.watchUrl(url =>
+          switch (url.path) {
+          | ["calc"] => dispatch(Route(Calc))
+          | _ => dispatch(Route(Home))
+          }
+        );
+
+      addEventListener("touchstart", e => {
+        let touch =
+          ReactEvent.Touch.touches(e)
+          ->TouchEvent.Touch.castReactTouchListToTouchArray
+          ->(Array.get(0));
+        let touchVal = touch##clientX;
+        x := touchVal;
+      });
+      addEventListener("touchend", e => {
+        let touch =
+          ReactEvent.Touch.changedTouches(e)
+          ->TouchEvent.Touch.castReactTouchListToTouchArray
+          ->(Array.get(0));
+        let totalWindowWidth =
+          float_of_int(touch##target->Webapi.Dom.Element.clientWidth);
+        let screenChange = x^ - touch##clientX;
+        let minReqMovement = totalWindowWidth *. 0.25;
+        let dir = screenChange > 0 ? Left : Right;
+        if (abs(screenChange) > int_of_float(minReqMovement)) {
+          switch (dir) {
+          | Left => ReasonReactRouter.push("/calc")
+          | Right => ReasonReactRouter.push("/")
+          };
+        };
+        x := 0;
+      });
+      // None;
+      Some(() => ReasonReactRouter.unwatchUrl(touchListen));
+    },
+    [|state|],
   );
+
+  <div className=Styles.root>
+    <App.Header />
+    {switch (state.activeRoute) {
+     | Home => <App />
+     | Calc => <RowCalcRoot />
+     }}
+  </div>;
+};
+let default = make;

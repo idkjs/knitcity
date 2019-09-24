@@ -4,7 +4,9 @@
 var $$Array = require("bs-platform/lib/js/array.js");
 var React = require("react");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
+var Caml_option = require("bs-platform/lib/js/caml_option.js");
 var Core = require("@material-ui/core");
+var MaterialUi_Typography = require("@jsiebern/bs-material-ui/src/MaterialUi_Typography.bs.js");
 
 function calculateMasks(currentMasks, masksToInsertOrRemove) {
   if (currentMasks !== 0) {
@@ -43,24 +45,14 @@ function Util$Result(Props) {
   if (listLength !== 0) {
     if (listLength !== 1) {
       return $$Array.mapi((function (index, result) {
-                    return React.createElement(Core.Typography, {
-                                align: "center",
-                                children: " strik 1 maske ind pr " + (String(result) + " maske(r) "),
-                                key: String(index)
-                              });
+                    return React.createElement(Core.Typography, MaterialUi_Typography.makeProps(/* Center */980392437, Caml_option.some(" strik 1 maske ind pr " + (String(result) + " maske(r) ")), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, String(index), undefined, undefined, undefined, /* () */0));
                   }), results);
     } else {
       var result = Caml_array.caml_array_get(results, 0);
-      return React.createElement(Core.Typography, {
-                  align: "center",
-                  children: " Strik 1 maske ind pr " + (String(result) + " maske(r) ")
-                });
+      return React.createElement(Core.Typography, MaterialUi_Typography.makeProps(/* Center */980392437, Caml_option.some(" Strik 1 maske ind pr " + (String(result) + " maske(r) ")), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0));
     }
   } else {
-    return React.createElement(Core.Typography, {
-                align: "center",
-                children: "Intet at udregne endnu"
-              });
+    return React.createElement(Core.Typography, MaterialUi_Typography.makeProps(/* Center */980392437, "Intet at udregne endnu", undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, /* () */0));
   }
 }
 

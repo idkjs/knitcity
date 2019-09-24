@@ -57,11 +57,7 @@ type actions =
   | ChangeText(string)
   | UpdateRowReset(int);
 
-let component = ReasonReact.reducerComponent("RowCalcRoot");
-
-let make = _children => {
-  ...component,
-  initialState: () => {
+let initialState = {
     let jsonStringOpt = Dom.Storage.(localStorage |> getItem("rowCalcs"));
 
     let rows =
@@ -75,86 +71,92 @@ let make = _children => {
       | None => [||]
       };
     {rows, titleVal: ""};
-  },
-  reducer: (action, state) => {
+  };
+ let reducer = (state, action) => {
     switch (action) {
     | AddNewRow =>
       let newRows: RowCalcParser.rows = [|{title: state.titleVal, rows: 0}|];
-      ReasonReact.Update({
+      {
         rows: Array.concat([state.rows, newRows]),
         titleVal: "",
-      });
-    | RemoveRow => ReasonReact.Update(state)
-    | Reset => ReasonReact.Update({...state, rows: [||]})
+      };
+    | RemoveRow => state
+    | Reset => {...state, rows: [||]}
     | UpdateRowIncrement(index) =>
       let newState = state;
       let toUpdate = newState.rows[index];
       newState.rows[index] = {title: toUpdate.title, rows: toUpdate.rows + 1};
-      ReasonReact.Update(newState);
+      newState;
     | UpdateRowReset(index) =>
       let newState = state;
       let toUpdate = newState.rows[index];
       newState.rows[index] = {title: toUpdate.title, rows: 0};
-      ReasonReact.Update(newState);
+      newState;
     | ChangeText(toChange) =>
-      ReasonReact.Update({...state, titleVal: toChange})
+      {...state, titleVal: toChange}
     };
-  },
-  didUpdate: ({newSelf}) => {
-    Js.log(newSelf.state.rows);
-    Dom.Storage.(
-      localStorage
-      |> setItem(
-           "rowCalcs",
-           newSelf.state.rows |> RowCalcParser.encode |> Json.stringify,
-         )
-    );
-  },
-  render: self => {
+  };
+[@react.component]
+let make = () => {
+  let (state, dispatch) = React.useReducer(reducer, initialState);
+  React.useEffect1(
+    () => {
+       Js.log(state.rows);
+       Dom.Storage.(
+         localStorage
+         |> setItem(
+              "rowCalcs",
+              state.rows |> RowCalcParser.encode |> Json.stringify,
+            )
+       );
+      None;
+    },
+    [|state|]
+  );
+
     <>
       <div className={App.Styles.innerRoot ++ " " ++ Styles.counterContainer}>
-        <Grid justify=`center>
-          {self.state.rows
+        <MaterialUi.Grid justify=`Center>
+          {state.rows
            |> Array.mapi((index, a: RowCalcParser.rowCalc) =>
-                <Grid.Item key={string_of_int(index)}>
+                <MaterialUi.Grid item=true key={string_of_int(index)}>
                   <RowCalc
                     rows={a.rows}
                     title={a.title}
                     index
                     newValues={action =>
                       switch (action) {
-                      | Count(index) => self.send(UpdateRowIncrement(index))
-                      | Reset(index) => self.send(UpdateRowReset(index))
+                      | Count(index) => dispatch(UpdateRowIncrement(index))
+                      | Reset(index) => dispatch(UpdateRowReset(index))
                       }
                     }
                   />
-                </Grid.Item>
+                </MaterialUi.Grid>
               )
            |> ReasonReact.array}
-        </Grid>
+        </MaterialUi.Grid>
       </div>
       <div className=Styles.formControl>
-        <Button onClick={_e => self.send(AddNewRow)}>
+        <MaterialUi.Button onClick={_e => dispatch(AddNewRow)}>
           {ReasonReact.string("+ counter")}
-        </Button>
-        <Button onClick={_e => self.send(Reset)}>
+        </MaterialUi.Button>
+        <MaterialUi.Button onClick={_e => dispatch(Reset)}>
           {ReasonReact.string("Reset")}
-        </Button>
-        <TextField
-          value={self.state.titleVal}
-          type_=`text
+        </MaterialUi.Button>
+        <MaterialUi.TextField
+          value=`String(state.titleVal)
+          type_="text"
           fullWidth=false
           label={ReasonReact.string("Name")}
           onChange={e =>
-            self.send(ChangeText(ReactEvent.Form.target(e)##value))
+            dispatch(ChangeText(ReactEvent.Form.target(e)##value))
           }
         />
       </div>
       <div
         className=Styles.floatingRightSideBack
-        onClick={_e => ReasonReact.Router.push("/")}>
+        onClick={_e => ReasonReactRouter.push("/")}>
         <NavigationIcons.Back />
       </div>
     </>;
-  },
 };
