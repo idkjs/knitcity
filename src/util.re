@@ -19,33 +19,29 @@ let calculateMasks = (~currentMasks, ~masksToInsertOrRemove) => {
 };
 
 module Result = {
-  let component = ReasonReact.statelessComponent("Result");
-
-  let make = (~results, _children) => {
-    ...component,
-    render: _self => {
-      let listLength = Array.length(results);
-      switch (listLength) {
-      | 0 =>
-        <Typography>
-          {ReasonReact.string("Intet at udregne endnu")}
-        </Typography>
-      | 1 =>
-        let result = results[0];
-        <Typography>
-          {ReasonReact.string({j| Strik 1 maske ind pr $result maske(r) |j})}
-        </Typography>;
-      | _ =>
-        results
-        |> Array.mapi((index, result) =>
-             <Typography key={string_of_int(index)}>
-               {ReasonReact.string(
-                  {j| strik 1 maske ind pr $result maske(r) |j},
-                )}
-             </Typography>
-           )
-        |> ReasonReact.array
-      };
-    },
+  [@react.component]
+  let make = (~results) => {
+    let listLength = Array.length(results);
+    switch (listLength) {
+    | 0 =>
+      <Typography align=`center>
+        {ReasonReact.string("Intet at udregne endnu")}
+      </Typography>
+    | 1 =>
+      let result = results[0];
+      <Typography align=`center>
+        {ReasonReact.string({j| Strik 1 maske ind pr $result maske(r) |j})}
+      </Typography>;
+    | _ =>
+      results
+      |> Array.mapi((index, result) =>
+           <Typography align=`center key={string_of_int(index)}>
+             {ReasonReact.string(
+                {j| strik 1 maske ind pr $result maske(r) |j},
+              )}
+           </Typography>
+         )
+      |> ReasonReact.array
+    };
   };
 };

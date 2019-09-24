@@ -7,6 +7,7 @@
     "@glennsl/bs-json": "^5.0.0",
     "@material-ui/core": "^4.3.2",
     "@material-ui/icons": "^4.2.1",
+    "@jsiebern/bs-material-ui": "1.1.0-hooks.8",
     "@types/jest": "24.0.17",
     "@types/node": "12.7.2",
     "@types/react": "16.9.1",
@@ -24,6 +25,8 @@
     "start:prod": "yarn serve -s build",
     "start": "react-scripts start",
     "build": "yarn bsb -make-world && react-scripts build",
+    "watch": "yarn bsb -make-world -w",
+    "clean": "yarn bsb -clean-world",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "postinstall": "yarn build"

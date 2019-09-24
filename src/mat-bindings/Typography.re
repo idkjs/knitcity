@@ -1,27 +1,37 @@
-[@bs.module "@material-ui/core/Typography/Typography"]
-external typography: ReasonReact.reactClass = "default";
+// [@bs.module "@material-ui/core/Typography/Typography"]
+// external typography: React.element = "default";
 
-[@bs.deriving jsConverter]
-type align = [ | `center];
+// type align = [@bs.string][ | `center];
 
-[@bs.deriving jsConverter]
-type variant = [ | `h3 | `body1 | `h6];
+// type variant = [@bs.string][ | `h3 | `body1 | `h6];
 
-[@bs.deriving abstract]
-type jsProps = {
-  variant: string,
-  align: string,
-  className: Js.nullable(string),
-};
+// [@bs.deriving abstract]
+// type jsProps = {
+//   variant: string,
+//   align: string,
+//   className: Js.nullable(string),
+// };
 
-let make = (~variant=`body1, ~align=`center, ~className=?, children) =>
-  ReasonReact.wrapJsForReason(
-    ~reactClass=typography,
-    ~props=
-      jsProps(
-        ~className=className |> Js.Nullable.fromOption,
-        ~variant=variant |> variantToJs,
-        ~align=align |> alignToJs,
-      ),
-    children,
-  );
+// let make = (~variant=`body1, ~align=`center, ~className=?, children) =>
+//   ReasonReact.wrapJsForReason(
+//     ~reactClass=typography,
+//     ~props=
+//       jsProps(
+//         ~className=className |> Js.Nullable.fromOption,
+//         ~variant=variant |> variantToJs,
+//         ~align=align |> alignToJs,
+//       ),
+//     children,
+//   );
+
+  [@bs.module "@material-ui/core"] [@react.component]
+  external make:
+    (
+      ~variant: [@bs.string][ | `h3 | `body1 | `h6]=?,
+      ~className: string=?,
+      ~align: [@bs.string][ | `center],
+      ~children: React.element,
+      unit
+    ) =>
+    React.element =
+    "Typography";

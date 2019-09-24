@@ -2,9 +2,6 @@
 'use strict';
 
 var Js_mapperRt = require("bs-platform/lib/js/js_mapperRt.js");
-var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
-var TextField = require("@material-ui/core/TextField/TextField");
 
 var jsMapperConstantArray = /* array */[
   /* tuple */[
@@ -52,22 +49,8 @@ function type_FromJs(param) {
   return Js_mapperRt.revSearch(3, jsMapperConstantArray$1, param);
 }
 
-function make(value, fullWidth, onChange, label, type_, $staropt$star, disabled, children) {
-  var variant = $staropt$star !== undefined ? $staropt$star : /* standard */-361220291;
-  return ReasonReact.wrapJsForReason(TextField.default, {
-              variant: variantToJs(variant),
-              type: type_ToJs(type_),
-              value: value,
-              label: label,
-              fullWidth: fullWidth,
-              onChange: onChange,
-              disabled: Js_null_undefined.fromOption(disabled)
-            }, children);
-}
-
 exports.variantToJs = variantToJs;
 exports.variantFromJs = variantFromJs;
 exports.type_ToJs = type_ToJs;
 exports.type_FromJs = type_FromJs;
-exports.make = make;
-/* ReasonReact Not a pure module */
+/* No side effect */

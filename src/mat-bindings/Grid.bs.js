@@ -2,9 +2,6 @@
 'use strict';
 
 var Js_mapperRt = require("bs-platform/lib/js/js_mapperRt.js");
-var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
-var Grid = require("@material-ui/core/Grid/Grid");
 
 var jsMapperConstantArray = /* array */[
   /* tuple */[
@@ -145,30 +142,13 @@ function spacingFromJs(param) {
   
 }
 
-function make($staropt$star, $staropt$star$1, $staropt$star$2, $staropt$star$3, $staropt$star$4, children) {
-  var alignContent = $staropt$star !== undefined ? $staropt$star : /* flexStart */662439529;
-  var alignItems = $staropt$star$1 !== undefined ? $staropt$star$1 : /* flexStart */662439529;
-  var direction = $staropt$star$2 !== undefined ? $staropt$star$2 : /* row */5693978;
-  var justify = $staropt$star$3 !== undefined ? $staropt$star$3 : /* flexStart */662439529;
-  var spacing = $staropt$star$4 !== undefined ? $staropt$star$4 : /* Zero */0;
-  return ReasonReact.wrapJsForReason(Grid.default, {
-              alignContent: alignContentToJs(alignContent),
-              alignItems: alignItemsToJs(alignItems),
-              direction: directionToJs(direction),
-              justify: justifyToJs(justify),
-              spacing: spacing + 0 | 0,
-              container: true
-            }, children);
+function Grid$Item(Props) {
+  Props.ml;
+  Props.item;
+  return Props.children;
 }
 
-function make$1(ml, children) {
-  return ReasonReact.wrapJsForReason(Grid.default, {
-              ml: Js_null_undefined.fromOption(ml),
-              item: true
-            }, children);
-}
-
-var Item = /* module */[/* make */make$1];
+var Item = /* module */[/* make */Grid$Item];
 
 exports.alignContentToJs = alignContentToJs;
 exports.alignContentFromJs = alignContentFromJs;
@@ -180,6 +160,5 @@ exports.justifyToJs = justifyToJs;
 exports.justifyFromJs = justifyFromJs;
 exports.spacingToJs = spacingToJs;
 exports.spacingFromJs = spacingFromJs;
-exports.make = make;
 exports.Item = Item;
-/* ReasonReact Not a pure module */
+/* No side effect */

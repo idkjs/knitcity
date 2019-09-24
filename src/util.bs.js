@@ -2,9 +2,9 @@
 'use strict';
 
 var $$Array = require("bs-platform/lib/js/array.js");
+var React = require("react");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
-var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Typography$KnitZilla = require("./mat-bindings/Typography.bs.js");
+var Core = require("@material-ui/core");
 
 function calculateMasks(currentMasks, masksToInsertOrRemove) {
   if (currentMasks !== 0) {
@@ -37,46 +37,35 @@ function calculateMasks(currentMasks, masksToInsertOrRemove) {
   }
 }
 
-var component = ReasonReact.statelessComponent("Result");
-
-function make(results, _children) {
-  return /* record */[
-          /* debugName */component[/* debugName */0],
-          /* reactClassInternal */component[/* reactClassInternal */1],
-          /* handedOffState */component[/* handedOffState */2],
-          /* willReceiveProps */component[/* willReceiveProps */3],
-          /* didMount */component[/* didMount */4],
-          /* didUpdate */component[/* didUpdate */5],
-          /* willUnmount */component[/* willUnmount */6],
-          /* willUpdate */component[/* willUpdate */7],
-          /* shouldUpdate */component[/* shouldUpdate */8],
-          /* render */(function (_self) {
-              var listLength = results.length;
-              if (listLength !== 0) {
-                if (listLength !== 1) {
-                  return $$Array.mapi((function (index, result) {
-                                return ReasonReact.element(String(index), undefined, Typography$KnitZilla.make(undefined, undefined, undefined, /* array */[" strik 1 maske ind pr " + (String(result) + " maske(r) ")]));
-                              }), results);
-                } else {
-                  var result = Caml_array.caml_array_get(results, 0);
-                  return ReasonReact.element(undefined, undefined, Typography$KnitZilla.make(undefined, undefined, undefined, /* array */[" Strik 1 maske ind pr " + (String(result) + " maske(r) ")]));
-                }
-              } else {
-                return ReasonReact.element(undefined, undefined, Typography$KnitZilla.make(undefined, undefined, undefined, /* array */["Intet at udregne endnu"]));
-              }
-            }),
-          /* initialState */component[/* initialState */10],
-          /* retainedProps */component[/* retainedProps */11],
-          /* reducer */component[/* reducer */12],
-          /* jsElementWrapped */component[/* jsElementWrapped */13]
-        ];
+function Util$Result(Props) {
+  var results = Props.results;
+  var listLength = results.length;
+  if (listLength !== 0) {
+    if (listLength !== 1) {
+      return $$Array.mapi((function (index, result) {
+                    return React.createElement(Core.Typography, {
+                                align: "center",
+                                children: " strik 1 maske ind pr " + (String(result) + " maske(r) "),
+                                key: String(index)
+                              });
+                  }), results);
+    } else {
+      var result = Caml_array.caml_array_get(results, 0);
+      return React.createElement(Core.Typography, {
+                  align: "center",
+                  children: " Strik 1 maske ind pr " + (String(result) + " maske(r) ")
+                });
+    }
+  } else {
+    return React.createElement(Core.Typography, {
+                align: "center",
+                children: "Intet at udregne endnu"
+              });
+  }
 }
 
-var Result = /* module */[
-  /* component */component,
-  /* make */make
-];
+var Result = /* module */[/* make */Util$Result];
 
 exports.calculateMasks = calculateMasks;
 exports.Result = Result;
-/* component Not a pure module */
+/* react Not a pure module */

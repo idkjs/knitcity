@@ -9,14 +9,11 @@ module Header = {
         color(hex("fff")),
       ]);
   };
-  let component = ReasonReact.statelessComponent("Header");
-  let make = _children => {
-    ...component,
-    render: _self => {
+  [@react.component]
+  let make = () => {
       <Typography className=Style.headerStyle variant=`h3>
         {ReasonReact.string("KnitZilla")}
       </Typography>;
-    },
   };
 };
 module Styles = {
@@ -42,8 +39,6 @@ type action =
   | SetCurrentMasks(int)
   | SetMasksToInsert(int);
 
-let component = ReasonReact.reducerComponent("AppRoot");
-
 let nanTest = toTest => {
   let nanTest = compare(float_of_int(toTest), nan);
 
@@ -52,18 +47,18 @@ let nanTest = toTest => {
   | _ => toTest
   };
 };
-
-let make = _children => {
-  ...component,
-  reducer: (action, state) =>
+let initialState = {currentMasks: 0, masksToInsert: 0};
+let reducer = (state, action) =>
     switch (action) {
     | SetCurrentMasks(toSet) =>
       ReasonReact.Update({...state, currentMasks: nanTest(toSet)})
     | SetMasksToInsert(toSet) =>
       ReasonReact.Update({...state, masksToInsert: nanTest(toSet)})
-    },
-  initialState: () => {currentMasks: 0, masksToInsert: 0},
-  render: self => {
+    };
+[@react.component]
+let make = () => {
+  let (state, dispatch) = React.useReducer(reducer, initialState);
+
     <>
       <div className=Styles.innerRoot>
         <Grid
@@ -74,12 +69,12 @@ let make = _children => {
               label={ReasonReact.string("Antal masker")}
               fullWidth=true
               value={
-                self.state.currentMasks === 0
-                  ? "" : string_of_int(self.state.currentMasks)
+                state.currentMasks === 0
+                  ? "" : string_of_int(state.currentMasks)
               }
               type_=`number
               onChange={e =>
-                self.send(
+                dispatch(
                   SetCurrentMasks(ReactEvent.Form.target(e)##valueAsNumber),
                 )
               }
@@ -92,11 +87,11 @@ let make = _children => {
               type_=`number
               fullWidth=true
               value={
-                self.state.masksToInsert === 0
-                  ? "" : string_of_int(self.state.masksToInsert)
+                state.masksToInsert === 0
+                  ? "" : string_of_int(state.masksToInsert)
               }
               onChange={e =>
-                self.send(
+                dispatch(
                   SetMasksToInsert(ReactEvent.Form.target(e)##valueAsNumber),
                 )
               }
@@ -105,8 +100,8 @@ let make = _children => {
           <Grid.Item>
             <Util.Result
               results={Util.calculateMasks(
-                ~currentMasks=self.state.currentMasks,
-                ~masksToInsertOrRemove=self.state.masksToInsert,
+                ~currentMasks=state.currentMasks,
+                ~masksToInsertOrRemove=state.masksToInsert,
               )}
             />
           </Grid.Item>
@@ -118,5 +113,4 @@ let make = _children => {
         <NavigationIcons.Forward />
       </div>
     </>;
-  },
 };

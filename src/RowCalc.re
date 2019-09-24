@@ -12,14 +12,12 @@ module Styles = {
 type updateActions =
   | Count(int)
   | Reset(int);
-let component = ReasonReact.statelessComponent("RowCalculator");
-let make =
-    (~rows, ~title, ~newValues: updateActions => unit, ~index, _children) => {
-  ...component,
 
-  render: _self => {
+[@react.component]
+let make =
+    (~rows, ~title, ~newValues: updateActions => unit, ~index) => {
     <>
-      <Typography> {ReasonReact.string(title)} </Typography>
+      <Typography align=`center variant=`body1> {ReasonReact.string(title)} </Typography>
       <Grid direction=`column alignItems=`center>
         <Grid.Item>
           <div
@@ -46,5 +44,4 @@ let make =
         </Grid.Item>
       </Grid>
     </>;
-  },
 };
