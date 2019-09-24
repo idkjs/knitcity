@@ -1,6 +1,19 @@
 [@bs.val]
-external addEventListener: (string, ReactEvent.Touch.t => unit) => unit =
+external addEventListener:
+  ([@bs.string] [ | `touchstart | `touchend], ReactEvent.Touch.t => unit) =>
+  unit =
   "window.addEventListener";
+
+// [@bs.val]
+// external addEventListener:
+//   ([@bs.string] [ | `url], {. "url": string} => unit) => unit =
+//   "";
+
+[@bs.val]
+external removeEventListener:
+  ([@bs.string] [ | `touchend], {. "url": string} => unit) => unit =
+  "window.removeEventListener";
+
 module Styles = {
   open Css;
   let root =
@@ -33,6 +46,7 @@ type actions =
 type direction =
   | Left
   | Right;
+
 let reducer = (state, action) => {
   switch (action) {
   | Route(toChange) => {...state, activeRoute: toChange}
@@ -44,13 +58,32 @@ let x = ref(0);
 [@react.component]
 let make = () => {
   let (state, dispatch) = React.useReducer(reducer, initialState);
-  let useAppUrl = () => {
-    let url = ReasonReactRouter.useUrl();
 
-    switch (url.path) {
-    | ["calc"] => dispatch(Route(Calc))
-    | _ => dispatch(Route(Home))
+  let onTouchStart = e => {
+    let touch =
+      ReactEvent.Touch.touches(e)
+      ->TouchEvent.Touch.castReactTouchListToTouchArray
+      ->(Array.get(0));
+    let touchVal = touch##clientX;
+    x := touchVal;
+  };
+  let onTouchEnd = e => {
+    let touch =
+      ReactEvent.Touch.changedTouches(e)
+      ->TouchEvent.Touch.castReactTouchListToTouchArray
+      ->(Array.get(0));
+    let totalWindowWidth =
+      float_of_int(touch##target->Webapi.Dom.Element.clientWidth);
+    let screenChange = x^ - touch##clientX;
+    let minReqMovement = totalWindowWidth *. 0.25;
+    let dir = screenChange > 0 ? Left : Right;
+    if (abs(screenChange) > int_of_float(minReqMovement)) {
+      switch (dir) {
+      | Left => ReasonReactRouter.push("/calc")
+      | Right => ReasonReactRouter.push("/")
+      };
     };
+    x := 0;
   };
   React.useEffect1(
     () => {
@@ -62,32 +95,8 @@ let make = () => {
           }
         );
 
-      addEventListener("touchstart", e => {
-        let touch =
-          ReactEvent.Touch.touches(e)
-          ->TouchEvent.Touch.castReactTouchListToTouchArray
-          ->(Array.get(0));
-        let touchVal = touch##clientX;
-        x := touchVal;
-      });
-      addEventListener("touchend", e => {
-        let touch =
-          ReactEvent.Touch.changedTouches(e)
-          ->TouchEvent.Touch.castReactTouchListToTouchArray
-          ->(Array.get(0));
-        let totalWindowWidth =
-          float_of_int(touch##target->Webapi.Dom.Element.clientWidth);
-        let screenChange = x^ - touch##clientX;
-        let minReqMovement = totalWindowWidth *. 0.25;
-        let dir = screenChange > 0 ? Left : Right;
-        if (abs(screenChange) > int_of_float(minReqMovement)) {
-          switch (dir) {
-          | Left => ReasonReactRouter.push("/calc")
-          | Right => ReasonReactRouter.push("/")
-          };
-        };
-        x := 0;
-      });
+      addEventListener(`touchstart, e => onTouchStart(e));
+      addEventListener(`touchend, e => onTouchEnd(e));
       // None;
       Some(() => ReasonReactRouter.unwatchUrl(touchListen));
     },

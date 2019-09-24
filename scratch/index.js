@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./BackgroundWrapper.bs";
-import * as serviceWorker from "./serviceWorker";
+import App from "../src/BackgroundWrapper.bs";
+import * as serviceWorker from "../src/serviceWorker";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import theme from "./theme";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";

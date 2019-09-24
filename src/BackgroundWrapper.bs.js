@@ -86,13 +86,15 @@ function BackgroundWrapper(Props) {
                   }
                 }));
           window.addEventListener("touchstart", (function (e) {
-                  var touch = Caml_array.caml_array_get(e.touches, 0);
+                  var e$1 = e;
+                  var touch = Caml_array.caml_array_get(e$1.touches, 0);
                   var touchVal = touch.clientX;
                   x[0] = touchVal;
                   return /* () */0;
                 }));
           window.addEventListener("touchend", (function (e) {
-                  var touch = Caml_array.caml_array_get(e.changedTouches, 0);
+                  var e$1 = e;
+                  var touch = Caml_array.caml_array_get(e$1.changedTouches, 0);
                   var totalWindowWidth = touch.target.clientWidth;
                   var screenChange = x[0] - touch.clientX | 0;
                   var minReqMovement = totalWindowWidth * 0.25;
